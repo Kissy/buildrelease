@@ -48,10 +48,12 @@ def isKeepByDay(dir, day):
   
 def isKeepByKeepfile(dir, keepfile):
   needkeep = False
+  print (dir)
   if (keepfile is not None):
     try :
       kf = open(keepfile,"r")
       for f in kf.readlines():
+        print (f)
         if (dir.upper().endswith("\\" + f.strip().upper())):
           needkeep = True
       kf.close()
@@ -67,7 +69,7 @@ def removeSubFolders(dir, day, keepfile):
     if ( not os.path.isdir(subdir)):
       continue
     print("----------------------")
-    if( (not isKeepByDay(subdir, day))and (not isKeepByKeepfile(dir, keepfile))):
+    if( (not isKeepByDay(subdir, day))and (not isKeepByKeepfile(subdir, keepfile))):
       print("remove subfolder: " + subdir)
       import shutil
       shutil.rmtree(subdir,True)
@@ -79,5 +81,17 @@ def FolderCleanUp():
     return
   removeSubFolders(dir,day,keepfile)
   
+def KeepLastNumZips(num)
+    def extractTime(f):
+        return os.path.getctime(f)
+
+    zipfiles = [os.path.join(zipdir, f)
+                for f in os.listdir(zipdir)
+                if os.path.splitext(f)[1] == ".zip"]
+    if len(zipfiles) > num:
+        zipfiles.sort(key=extractTime, reverse=True)
+        for i in range(num, len(zipfiles)):
+            os.remove(zipfiles[i])
+
 if __name__=='__main__':
   FolderCleanUp()
