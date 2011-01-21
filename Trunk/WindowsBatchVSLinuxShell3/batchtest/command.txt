@@ -1,0 +1,347 @@
+一 变量延迟
+
+为了更好的说明问题，我们先引入一个例子。
+例1:
+	@echo off
+	set a=4
+	set a=5&echo %a%
+	pause
+结果：4
+解说：为什么是4而不是5呢？在echo之前明明已经把变量a的值改成5了？
+
+让我们先了解一下批处理运行命令的机制：
+
+批处理读取命令时是按行读取的，在
+处理之前要完成必要的预处理工作，这其中就包括对该行命令中的变量赋值。我们现在分析一下例1，批处理
+在运行到这句“set a=5&echo %a%”之前，先把这一句整句读取并做了预处理——对变量a赋了值，那么%a%当
+然就是4了！（没有为什么，批处理就是这样做的。）
+
+而为了能够感知环境变量的动态变化，批处理设计了变量延迟。简单来说，在读取了一条完整的语句之后，不
+立即对该行的变量赋值，而会在某个单条语句执行之前再进行赋值，也就是说“延迟”了对变量的赋值。
+
+那么如何开启变量延迟呢？变量延迟又需要注意什么呢？举个例子说明一下：
+例2:
+	@echo off
+	setlocal enabledelayedexpansion
+	set a=4
+	set a=5&echo !a!
+	pause	
+结果：5
+解说：由于启动了变量延迟，得到了正确答案。变量延迟的启动语句是“setlocal enabledelayedexpansion
+”，并且变量要用一对叹号“!!”括起来（注意要用英文的叹号），否则就没有变量延迟的效果。
+
+分析一下例2，首先“setlocal enabledelayedexpansion”开启变量延迟，然后“set a=4”先给变量a赋值为
+4，“set a=5&echo !a!”这句是给变量a赋值为5并输出（由于启动了变量延迟，所以批处理能够感知到动态
+变化，即不是先给该行变量赋值，而是在运行过程中给变量赋值，因此此时a的值就是5了）。
+
+再举一个例子巩固一下。
+例3:
+	@echo off
+	setlocal enabledelayedexpansion
+	for /l %%i in (1,1,5) do (
+	set a=%%i
+	echo !a!
+	)
+	pause
+
+结果：
+1
+2
+3
+4
+5
+
+二 if中的判断
+不多说了，直接看这两段代码。
+
+1、 
+    @echo off
+    set a=5
+    set b=40
+    if %a% gtr %b% echo 5比40大！
+    pause
+    rem 运行结果是“按任意键继续…”
+
+
+2、 
+    @echo off
+    set a=5
+    set b=40
+    if "%a%" gtr "%b%" echo 5比40大！
+    pause
+    rem 运行结果是“5比40大！”
+
+
+比较一下这两段代码，其差别就在引号“""”上。即当
+变量没被引号括起来的时候
+进行的是数字的比较；而被引号括起来就是进行字符串
+的比较（比较字符串时当然5比40大）。
+
+三 if中注意空变量
+@echo off
+set hero=
+if %hero% equ 1 (echo 正确!) else (echo 错误!)
+pause
+
+错了吗？
+
+答：错了。此时变量hero的值为空，即if语句相当于“if equ 1 (echo 正
+确!) else (echo 错误!)”，equ前面没有东西，当然不对。
+
+解决方法：加上引号，即“if "%hero%" equ "1" (echo 正确!) else 
+(echo 错误!)”
+
+四 errorlevel使用的错误。
+
+@echo off
+find "hero" 1.txt
+
+if errorlevel 0 echo 找到了!&goto next
+if errorlevel 1 echo 没找到!&goto next
+
+:next
+pause
+
+错了吗？
+
+答：错了！这样写无论1.txt中有没有字符串“hero”都会显示“找到了！
+”。
+原因是“if errorlevel 0 echo 找到了!&goto next”这句相当于“if %
+errorlevel% gtr 0 echo 找到了!&goto next”。
+因此错误码大的一定要写在前面。
+
+五重定向的问题
+如果你要向一个文件中写入数字1，也许你会这样写：
+
+	@echo off
+	echo 1>hero.txt
+	pause
+
+但这样写是错误的，因为这里的数字1有其它用途--代表了
+标准输出流。
+
+一般情况下不要用个位数直接接重定向符号。
+
+那么如何解决这个问题呢？我们可以换另外一种格式：
+
+	@echo off
+	>hero.txt echo 1
+	pause
+六 罪恶的双引号
+双引号在单个使用的时候非常容易犯错误。
+“"”后面的字符串在第二个“"”出现之前都会被当成一般字符！
+
+@echo off
+if hero==hero (echo hero is me")
+pause
+
+这段代码运行不成功，原因是引号后面的括号“)”被当作是一般字符了。
+
+
+@echo off
+echo hero is me"&pause
+pause
+
+这段代码也出乎了我们的意料,原因是引号后面的&被当作是一般字符了。
+
+批处理中双引号的优先级比较高，但低于百分号，也就是说双引号中的
+百分号不会被识别为普通字符。
+
+七 罪恶的空格，空格不能随便乱用，定义变量的时候不要再等号前后加空格，还有很多的情况都需注意。
+
+
+
+命令
+
+1 at 11:00/interactive "c:\hero\hero.exe"
+表示在11:00运行c:\hero\hero.exe,其中interactive是参数,表示允许作业在运行时与当时登录的用户桌面
+进行交互。
+
+2 显示或更改文件属性。（也可以更改文件夹的属性）
+例 attrib d:\hero.txt
+显示d:\hero.txt的属性。
+
+例 attrib d:\hero.txt +h +s +r
+为d:\hero.txt添加隐藏、系统、只读的属性。
+
+例 attrib d:\hero.txt -h -s -r
+为d:\hero.txt去掉隐藏、系统、只读的属性。
+
+3显示目录中的文件和子目录列表。
+
+DIR [drive:][path][filename] [/A[[:]attributes]] [/B] [/O[[:]sortorder]] [/S] 
+
+
+  /A          显示具有指定属性的文件。
+  attributes   D  目录                R  只读文件
+               H  隐藏文件            A  准备存档的文件
+               S  系统文件            -  表示“否”的前缀
+  /B          使用空格式(没有标题信息或摘要)。
+
+  /O          用分类顺序列出文件。
+  sortorder    N  按名称(字母顺序)     S  按大小(从小到大)
+               E  按扩展名(字母顺序)   D  按日期/时间(从先到后)
+               G  组目录优先           -  颠倒顺序的前缀
+
+  /S          显示指定目录和所有子目录中的文件。
+
+dir命令参数较多，在此仅列出几个以供学习使用。
+
+例一、
+
+@echo off
+dir /b
+pause
+只列出当前目录下的文件名和子目录名。（如果没有“/b”参数，将会显示一些额外的信息。）
+
+例二、
+@echo off
+dir /s
+pause
+不仅列出当前目录下的文件名和子目录名，还列出子目录中的文件及子目录名。
+
+例三、
+@echo off
+dir /ah
+pause
+列出当前目录下隐藏文件的文件名。
+
+例四、
+@echo off
+dir /os
+pause
+按照文件的大小顺序显示当前目录下的文件。
+
+4注册组件
+/u  解除注册
+/s  无声，不显示消息框
+
+例：
+regsvr32 /s hero.dll
+
+5 显示日期。
+如果加上“/t”参数则只显示日期，而不用输入新日期。
+显示时间。
+如果加上“/t”参数则只显示时间，而不用输入新时间。
+
+6用于将路径虚拟成磁盘
+例 subst X:  c:\hero
+将c:\hero虚拟成x盘。
+
+例 subst X: /d
+删除虚拟磁盘X。
+
+这个命令有时可以代替虚拟光驱。
+注：系统重启后虚拟的磁盘将消失。
+
+7 tree以图形显示驱动器或路径的文件夹结构。
+
+8在文件中搜索字符串。
+
+FIND "指定要搜索的文字串" 指定要搜索的文件
+
+例：
+
+@echo off
+find "hero" hero.txt >nul
+if errorlevel 1 echo 没找到！
+if errorlevel 0 echo 找到了！
+pause
+
+
+9 在文件中寻找字符串。
+
+FINDSTR [/S] [/I] [/N] [/M] [/C:string] strings [[drive:][path]filename[ ...]]
+
+
+  /S        在当前目录和所有子目录中搜索匹配文件。
+  /I         指定搜索不分大小写。
+  /N        在匹配的每行前打印行数。
+  /M        如果文件含有匹配项，只打印其文件名。
+  /C:string 使用指定字符串作为文字搜索字符串。
+  strings   要查找的文字。
+  [drive:][path]filename
+            指定要查找的文件。
+
+除非参数有 /C 前缀，请使用空格隔开搜索字符串。
+例如: 'FINDSTR "hello there" x.y' 表示在文件 x.y 中寻找 "hello" 或
+"there" 。  'FINDSTR /C:"hello there" x.y' 表示在文件 x.y中寻找
+"hello there"。
+
+findstr正则表达式的基本用法：
+
+1.findstr . hero.txt 或 Findstr "." hero.txt  
+在文件hero.txt中查找任意字符，不包括空行。
+
+
+
+2.findstr .* hero.txt 或 findstr ".*" hero.txt
+从文件hero.txt中查找任意字符包括空行。
+
+
+
+3.findstr "[0-9]" hero.txt
+从文件hero.txt中查找包括数字0~9的行。
+
+
+
+4.findstr "[a-zA-Z]" hero.txt
+从文件hero.txt中查找包括任意字符的行。
+
+
+5.findstr "[dhyz]" hero.txt
+从文件hero.txt中查找包括d h y z字母的行。
+
+
+
+6.findstr "[a-hl-z]" hero.txt
+从文件hero.txt中查找小写字符a-h l-z的字符串，但不包含I j k这几个字母。
+
+
+
+7.findstr "h[aeg][jri]o" hero.txt
+从文件hero.txt中可以匹配hejo,hajo,hgio,hero等…。
+
+
+
+8. ^和$符号的应用
+^ 表示行首匹配，"^hero"仅匹配 "heroisme"中的第一个单词。
+$ 表示行尾匹配，"hero$"仅匹配 "iamthehero"中最后一个单词。
+
+
+
+9.finstr "[^0-9]" hero.txt
+如果是纯数字的字符串或者行便过滤掉，例如123321235545这样的字符串，如果是dafsd4555232fd这样的形式
+就不可以了。
+
+
+10.findstr "[^a-z]" hero.txt
+同上，如果是纯字母的字符串或者行便过滤掉，例如sgfgsdfgdf这样的字符，如果是dasfdsf454f这样的形式
+，掺杂着数字就不可以了。
+
+
+
+11.*号的作用
+前面已经说过了 ".*"表示搜索的条件是任意字符，*号在正则表达式中的作用不是任何字符，而是表示左侧字
+符或者表达式的重复次数，*号表示重复的次数为零次或者多次。
+
+
+
+12.findstr "^[0-9]*$" hero.txt
+这个是匹配找到的纯数字，例如314531454，如果是53234523hh234就被过滤掉了。
+   Findstr "^[a-z]*$" hero.txt
+这个是匹配找到的纯字母，例如 sdfsdfsdfsdf，如果是34fdaf454fdad就被过滤掉了
+如果在搜索条件里没有*号，也就是说不重复左侧的搜索条件，也就是[0-9] [a-z]那只能匹配字符串的第一个
+字符也只有这一个字符。
+
+
+13. "\<…\>"这个表达式的作用
+这个表示精确查找一个字符串，\< 表示字的开始位置，\>表示字的结束位置
+echo hello world hero|findstr "\<hero\>"这样的形式
+echo hello worldhero|findstr "\<hero\>" 这样的形式就不成了，他要找的是 "computer"这个字符串，所
+以不可以。
+echo hello worldhero|findstr ".*hero\>"这样就可以匹配了
+
+
+
+ 

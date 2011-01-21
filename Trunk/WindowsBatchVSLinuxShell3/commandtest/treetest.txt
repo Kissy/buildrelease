@@ -1,0 +1,6 @@
+Folder PATH listing for volume System
+Volume serial number is 3062-66FF
+D:\BRE SOFT
+Invalid path - \BRE SOFT
+No subfolders exist 
+

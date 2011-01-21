@@ -1,0 +1,18 @@
+total 477
+drwxrwxrwx   1 user     group           0 Jul  7 16:29 .
+drwxrwxrwx   1 user     group           0 Jul  7 16:28 ..
+-rw-rw-rw-   1 user     group          10 Jul  7 15:37 1.txt
+-rwxrwxrwx   1 user     group         104 Jul  7 16:00 TestEnv.bat
+-rw-rw-rw-   1 user     group           0 Jul  7 16:29 allfiles.txt
+-rwxrwxrwx   1 user     group         100 Jul  7 15:26 awktest.bat
+-rwxrwxrwx   1 user     group         109 Jul  7 15:01 exprtest.bat
+-rwxrwxrwx   1 user     group          80 Jul  7 14:29 fctest.bat
+-rwxrwxrwx   1 user     group          25 Jul  7 14:56 printftest.bat
+-rw-rw-rw-   1 user     group          40 Jun 23 15:18 scores.txt
+-rw-rw-rw-   1 user     group         268 Jul  7 16:27 shtest.sh
+-rw-rw-rw-   1 user     group          70 Jul  7 14:28 test.txt
+-rw-rw-rw-   1 user     group          73 Jul  7 14:28 test2.txt
+-rw-rw-rw-   1 user     group          77 Jul  7 15:35 test3.txt
+-rw-rw-rw-   1 user     group          77 Jul  7 15:35 test4.txt
+-rwxrwxrwx   1 user     group          76 Jul  7 14:37 treetest.bat
+-rw-rw-rw-   1 user     group      475014 Jul  7 14:37 treetest.txt
