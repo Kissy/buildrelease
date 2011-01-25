@@ -1,0 +1,18 @@
+1>------ Build started: Project: TestCpp, Configuration: Debug Win32 ------
+1>  TestCpp.cpp
+1>d:\testcpp\testcpp\testcpp.cpp(9): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+1>d:\testcpp\testcpp\testcpp.cpp(10): error C2039: 'cout' : is not a member of 'std'
+1>d:\testcpp\testcpp\testcpp.cpp(10): error C2065: 'cout' : undeclared identifier
+1>d:\testcpp\testcpp\testcpp.cpp(11): error C2146: syntax error : missing ';' before identifier 'MyClass'
+1>d:\testcpp\testcpp\testcpp.cpp(11): error C2065: 'MyClass' : undeclared identifier
+1>d:\testcpp\testcpp\testcpp.cpp(11): error C2146: syntax error : missing ';' before identifier 'myc'
+1>d:\testcpp\testcpp\testcpp.cpp(11): error C2065: 'myc' : undeclared identifier
+1>d:\testcpp\testcpp\testcpp.cpp(11): error C2061: syntax error : identifier 'MyClass'
+1>  MyClass.cpp
+1>d:\testcpp\testcpp\myclass.cpp(7): warning C4091: '' : ignored on left of 'int' when no variable is declared
+1>d:\testcpp\testcpp\myclass.cpp(7): error C2143: syntax error : missing ';' before '['
+1>d:\testcpp\testcpp\myclass.cpp(7): error C3409: empty attribute block is not allowed
+1>d:\testcpp\testcpp\myclass.cpp(7): error C2146: syntax error : missing ';' before identifier 'numbers'
+1>d:\testcpp\testcpp\myclass.cpp(7): error C2065: 'numbers' : undeclared identifier
+1>  Generating Code...
+========== Build: 0 succeeded, 1 failed, 0 up-to-date, 0 skipped ==========
