@@ -1,0 +1,40 @@
+
+python除了关键字（keywords）和内置的类型和函数（builtins）,更多的功能是通过libraries（即modules）来提供的。
+
+常用的libraries（modules）如下：
+
+1）python运行时服务
+
+* copy： copy模块提供了对复合（compound）对象（list，tuple，dict，custom class）进行浅拷贝和深拷贝的功能。
+
+* pickle： pickle模块被用来序列化python的对象到bytes流，从而适合存储到文件，网络传输，或数据库存储。（pickle的过程也被称serializing,marshalling或者flattening，pickle同时可以用来将bytes流反序列化为python的对象）。
+
+* sys：sys模块包含了跟python解析器和环境相关的变量和函数。
+
+* 其他： atexit，gc，inspect，marshal，traceback，types，warnings，weakref。
+
+2）数学
+
+* decimal：python中的float使用双精度的二进制浮点编码来表示的，这种编码导致了小数不能被精确的表示，例如0.1实际上内存中为0.100000000000000001，还有3*0.1 == 0.3 为False. decimal就是为了解决类似的问题的，拥有更高的精确度，能表示更大范围的数字，更精确地四舍五入。
+
+* math：math模块定义了标准的数学方法，例如cos(x),sin(x)等。
+
+* random：random模块提供了各种方法用来产生随机数。
+
+* 其他：fractions，numbers
+
+3）数据结构，算法和代码简化
+
+* array： array代表数组，类似与list，与list不同的是只能存储相同类型的对象。
+
+* bisect： bisect是一个有序的list，其中内部使用二分法（bitsection）来实现大部分操作。
+
+* collections：collections模块包含了一些有用的容器的高性能实现，各种容器的抽象基类，和创建name-tuple对象的函数。例如包含了容器deque，defaultdict，namedtuple等。
+
+* heapq：heapq是一个使用heap实现的带有优先级的queue。
+
+* itertools：itertools包含了函数用来创建有效的iterators。所有的函数都返回iterators或者函数包含iterators（例如generators 和generators expression）。
+
+* operator： operator提供了访问python内置的操作和解析器提供的特殊方法，例如 x+y 为 add（x，y），x+=y为iadd（x，y），a % b 为mod（a，b）等等。
+
+* 其他：abc，contextlib，functools。

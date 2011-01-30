@@ -1,0 +1,86 @@
+
+Please wait a moment while I gather a list of all available modules...
+
+WConio              cgi                 lib2to3             sqlite3
+Weather             cgitb               linecache           sre_compile
+_WConio             changefolderdate    locale              sre_constants
+__future__          chunk               logging             sre_parse
+_abcoll             classtest           macpath             ssl
+_ast                cleanup             macurl2path         stat
+_bisect             cmath               mailbox             stdredirect
+_codecs             cmd                 mailcap             string
+_codecs_cn          code                marshal             stringprep
+_codecs_hk          codecs              math                struct
+_codecs_iso2022     codeop              mimetypes           subprocess
+_codecs_jp          collections         mkpasswd            subprocessTest
+_codecs_kr          colorsys            mmap                substandnetuse
+_codecs_tw          commonmodule        modulefinder        sunau
+_collections        compileall          msilib              symbol
+_compat_pickle      configparser        msvcrt              symtable
+_csv                contextlib          multiprocessing     sys
+_ctypes             copy                myenv               tabnanny
+_ctypes_test        copyreg             mytest              tarfile
+_dummy_thread       csv                 netrc               telnetlib
+_elementtree        ctypes              nntplib             tempfile
+_functools          curses              nt                  test
+_hashlib            datastructure       ntpath              testbasic
+_heapq              datastrucuture      nturl2path          testencoding
+_io                 datetime            numbers             testexception
+_json               dbm                 opcode              testglobla
+_locale             decimal             operator            testhttpgetpost
+_lsprof             difflib             optparse            testimport
+_markupbase         dis                 os                  testlog
+_md5                distutils           os2emxpath          testostype
+_msi                doctest             parsebuildlog       testregex
+_multibytecodec     dummy_threading     parsecommandline    testsubprocess
+_multiprocessing    email               parser              testxml
+_pickle             encodings           pdb                 textwrap
+_pyio               envTest             pickle              this
+_random             envTest2            pickletools         thread
+_sha1               errno               pipes               threading
+_sha256             fileanddirectory    pkgutil             time
+_sha512             filecmp             platform            timeit
+_socket             fileinput           plistlib            tkinter
+_sqlite3            filetest            poplib              tkinterlabel
+_sre                fnmatch             posixpath           token
+_ssl                foldercleanup       pprint              tokenize
+_strptime           formatter           profile             trace
+_struct             fractions           pstats              traceback
+_subprocess         ftplib              pty                 tty
+_symtable           function            py_compile          turtle
+_testcapi           functools           pyclbr              types
+_thread             gc                  pydoc               unicodedata
+_threading_local    genericpath         pydoc_data          unittest
+_tkinter            getfiles            pyexpat             urllib
+_warnings           getmp3              pythonbasic         uu
+_weakref            getopt              pythontips          uuid
+_weakrefset         getpass             pythontips1         warnings
+abc                 getstockinfo        queue               wave
+activestate         gettext             quopri              weakref
+aifc                glob                random              webbrowser
+antigravity         gzip                re                  while
+array               hashlib             readwritefile       winreg
+ast                 heapq               reprlib             winsound
+asynchat            helloworld          rlcompleter         wsgiref
+asyncore            hmac                rpyc                xdrlib
+atexit              html                runpy               xml
+audioop             http                sched               xmlrpc
+base64              httplib2            select              xmltest
+bdb                 idlelib             shelve              xxsubtype
+binascii            imaplib             shlex               yield
+binhex              imghdr              shutil              yield27
+bisect              imp                 signal              zip
+build_class         importlib           site                zipfile
+builtins            inspect             smtpd               zipimport
+builtintest         io                  smtplib             ziptest
+bz2                 itertools           sndhdr              zlib
+cProfile            json                socket              
+calendar            keyword             socketserver        
+
+Enter any module name to get more help.  Or, type "modules spam" to search
+for modules whose descriptions contain the word "spam".
+
+
+
+           
+
