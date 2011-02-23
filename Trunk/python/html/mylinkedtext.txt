@@ -1,0 +1,4 @@
+7.smtpserver='smtp.***.cn'  
+8.smtpuser='***@***.cn'  
+9.smtppass='***'  
+10.smtpport='25'  
