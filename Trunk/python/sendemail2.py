@@ -47,7 +47,7 @@ def getMIMEObj(path):
     return msg
 
   
-def sendMail(mailhost,subject,sender,recipients,ccto = '',bccto = '',htmldir = '', htmlfile = ''):
+def sendMail(mailhost,subject,sender,recipients,ccto = '',bccto = '',message = '', payloads = ''):
   try:
     mailport=smtplib.SMTP(mailhost)
   except:
@@ -55,29 +55,24 @@ def sendMail(mailhost,subject,sender,recipients,ccto = '',bccto = '',htmldir = '
                       + '"!\nYou can try again later\n')
     return 0
     
-  msgroot = MIMEMultipart('related')
+  msgroot = MIMEMultipart('mixed')
   msgroot['From'] = sender
   msgroot['To'] = recipients
   msgroot['Cc'] = ccto
   msgroot['Bcc'] = bccto
   msgroot['Subject'] = subject
 
-  msghtml = MIMEMultipart('alternative')
-  msgroot.attach(msghtml)  
-  if os.path.exists(os.path.join(htmldir,htmlfile)):
-    htmlf = open(os.path.join(htmldir,htmlfile))
-    htmlmessage = MIMEText(htmlf.read(),'html','utf-8')
-    htmlf.close()
-    msghtml.attach(htmlmessage)
+  alternative = MIMEMultipart('alternative')
+  msgroot.attach(alternative)  
+  mes = MIMEText(message,'plain','utf-8')
+  alternative.attach(mes)
     
-  for root, subdirs, files in os.walk(htmldir):
-    for file in files:
-      if file == htmlfile:
-        continue
+  for file in payloads.split(','):
+      if os.path.isfile(file) and os.path.exists(file):
+        msgroot.attach(getMIMEObj(file))
       else:
-        msgroot.attach(getMIMEObj(os.path.join(root,file)))
+        sys.stderr.write("The file %s cannot be found" % file)
   
-  failed = 0
   try:
     #mailport.set_debuglevel(1)
     allrecipients = recipients.split(',')
@@ -87,13 +82,17 @@ def sendMail(mailhost,subject,sender,recipients,ccto = '',bccto = '',htmldir = '
       allrecipients.extend(bccto.split(',')) 
     #print allrecipients
     failed = mailport.sendmail(sender, allrecipients, msgroot.as_string())
-    print failed
+    if failed == None:
+      sys.stderr.write(failed)
+      return 0
   except Exception as e:
     sys.stderr.write(repr(e))
+    return 0
   finally:
     mailport.quit()
     
-  return failed
+  return 1
+
 
 mailhost = 'mail-relay.autodesk.com'
 sender  = "AAA@Company.com"
@@ -107,4 +106,4 @@ htmldir = 'D:\\html'
 htmlfile = 'myhtmleamil.html'
           
 
-sendMail(mailhost,subject,sender,recipients,ccto,bccto,message)
+sendMail(mailhost,subject,sender,recipients,message = message,payloads = 'c:\\test\\test.ba,C:\\test\s7\\mytable.txt')
