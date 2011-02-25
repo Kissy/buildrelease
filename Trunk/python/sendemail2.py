@@ -94,16 +94,12 @@ def sendMail(mailhost,subject,sender,recipients,ccto = '',bccto = '',message = '
   return 1
 
 
-mailhost = 'mail-relay.autodesk.com'
+mailhost = 'mail-relay.company.com'
 sender  = "AAA@Company.com"
-recipients = "xiaohong.zhu@Autodesk.com"
-ccto = ''#'wenjiang.huang@autodesk.com'#
-bccto = ''#"Jian.Zhang@autodesk.com"#
+recipients = "BBB@company.com"
+ccto = 'CCC@company.com'
+bccto = 'DDD@company.com'
 subject = "Testing1"
-message = "Testing!\nTesting!\n"
-messagefile = "mymessage.txt"
-htmldir = 'D:\\html'
-htmlfile = 'myhtmleamil.html'
-          
+message = "Testing!\nTesting!\n"     
 
 sendMail(mailhost,subject,sender,recipients,message = message,payloads = 'c:\\test\\test.ba,C:\\test\s7\\mytable.txt')
